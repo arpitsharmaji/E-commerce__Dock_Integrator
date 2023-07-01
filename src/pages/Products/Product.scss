@@ -1,0 +1,13 @@
+@import "../../../mixins.scss";
+.productPage{
+    width: 100%;
+    padding-top: 100px;
+    margin-bottom: 50px;
+    @include md {
+        margin-bottom: 0;
+        padding-top: 70px;
+        min-height: 700px;
+    }
+
+   
+}
