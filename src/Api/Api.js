@@ -12,6 +12,24 @@ export const fetchDetailsfromApi = async (url) => {
   }
 };
 
+const token = localStorage.getItem("token");
+
+const headers = {
+  Authorization: token,
+};
+
+export const getuserdetails = async (url) => {
+  try {
+    const { data } = await axios.get(base_url + url, {
+      headers
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 export const SignupLogin = async (url, user) => {
   try {
     const res = await axios.post(base_url + url, user);
@@ -34,7 +52,7 @@ export const updateUser = async (url, user) => {
   }
 };
 
-export const deleteUser = async (url) => {
+export const cancelOrders = async (url) => {
   try {
     const res = await axios.delete(base_url + url);
     return res;

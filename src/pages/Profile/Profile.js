@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Profile.scss";
 import { useSelector, useDispatch } from "react-redux";
 import Img from "../../components/LazyLoading/Img";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 import avtar from "../../assets/avatar.png";
-import { AiOutlineEdit } from "react-icons/ai";
-import { updateUser } from "../../Api/Api";
-import { GiCancel } from "react-icons/gi";
+import { HiOutlinePencil } from "react-icons/hi";
+import {
+  updateUser,
+  cancelOrders,
+  getuserdetails,
+  fetchDetailsfromApi,
+} from "../../Api/Api";
 import { getOrders } from "../../Store/Orders";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Logout } from "../../Store/UserAuth";
 import { BsCurrencyRupee } from "react-icons/bs";
 import OrderModel from "../../components/OrderModel/OrderModel";
+import { UserFun } from "../../Store/UserAuth";
+import axios from "axios";
 
 function Profile() {
   const { user } = useSelector((state) => state.user);
@@ -22,26 +27,68 @@ function Profile() {
 
   const [openModel, setOpenModel] = useState(false);
   const [orderedItem, setOrderedItem] = useState(null);
-
   const { orders } = useSelector((state) => state.orders);
-
-
   const [editForm, seteditForm] = useState(false);
-
-
   const [formdata, setformdata] = useState({});
   const [emptyError, setError] = useState("");
 
+  const preset_key = "shopbagprofile";
+  const cloud_name = "dygbz1kio";
+
+  // const handlefile = ()
+
   const handlechange = (e) => {
     const { name, value } = e.target;
-    if (name === "profilePic") {
-      setformdata({ ...formdata, [name]: e.target.files[0] });
-    } else {
-      setformdata({ ...formdata, [name]: value });
-    }
+    setformdata({ ...formdata, [name]: value });
+  };
+
+  const AddProfileimage = (e) => {
+    const file = e.target.files[0];
+    const form = new FormData();
+    form.append("file", file);
+    form.append("upload_preset", preset_key);
+    form.append("cloud_name", "");
+    axios
+      .post(
+        `
+        https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        form
+      )
+      .then((res) =>
+        updateUser(`/users/${user?._id}`, { profilePic: res.data.secure_url })
+          .then((res) => {
+            getuserdetails("/Auth/profile")
+              .then((res) => {
+                dispatch(UserFun(res));
+                return res;
+              })
+              .catch((error) => {
+                console.log(error);
+                return error;
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      )
+      .catch((err) => console.log(err));
   };
 
   
+
+  const userId = user?._id;
+
+  useEffect(() => {
+    if (userId) {
+      fetchDetailsfromApi(`/purchase/${userId}`)
+        .then((res) => {
+          dispatch(getOrders(res));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [userId, user?.orders]);
 
   const LoginFirst = () => {
     Navigate("/login");
@@ -56,7 +103,16 @@ function Profile() {
       updateUser(`/users/${user?._id}`, formdata)
         .then((res) => {
           seteditForm(false);
-          setformdata({})
+          setformdata({});
+          getuserdetails("/Auth/profile")
+            .then((res) => {
+              dispatch(UserFun(res));
+              return res;
+            })
+            .catch((error) => {
+              console.log(error);
+              return error;
+            });
         })
         .catch((err) => {
           console.log(err);
@@ -75,15 +131,12 @@ function Profile() {
 
   const cancelorder = (id, e) => {
     e.stopPropagation();
-    axios
-      .delete(`http://localhost:8080/purchase/${id}`)
+    cancelOrders(`/purchase/${id}`)
       .then((res) => {
         if (user?._id) {
-          axios
-            .get(`http://localhost:8080/purchase/${user?._id}`)
+          fetchDetailsfromApi(`/purchase/${user?._id}`)
             .then((res) => {
-              const { data } = res;
-              dispatch(getOrders(data));
+              dispatch(getOrders(res));
             })
             .catch((error) => {
               console.log(error);
@@ -112,13 +165,18 @@ function Profile() {
           <div className="afterLogin">
             <div className="profiledetails">
               <div className="ImageContainer">
+                <div className="uploadicon">
+                  <label htmlFor="input">{<HiOutlinePencil />}</label>
+                  <input
+                    id="input"
+                    style={{ display: "none" }}
+                    type="file"
+                    onChange={AddProfileimage}
+                  />
+                </div>
                 <img
                   className="profilePic"
-                  src={
-                    user?.profilePic
-                      ? `http://localhost:8080/${user?.profilePic}`
-                      : avtar
-                  }
+                  src={user?.profilePic ? `${user?.profilePic}` : avtar}
                 />
               </div>
               <div className="basicdetails">
@@ -148,20 +206,7 @@ function Profile() {
                       value={formdata.addresses}
                       onChange={handlechange}
                     />
-                    <p className="addbgIcon">
-                      <label htmlFor="profilePic">
-                        {<AiOutlineEdit />} profilePic
-                      </label>
-                      <input
-                        id="profilePic"
-                        style={{ display: "none" }}
-                        type="file"
-                        name="profilePic"
-                        onChange={handlechange}
-                      />
-                    </p>
-                    <p>{formdata?.profilePic?.name}</p>
-                    <p className="error" >{emptyError}</p>
+                    <p className="error">{emptyError}</p>
                     <button>submit</button>
                   </form>
                 )}
@@ -215,7 +260,12 @@ function Profile() {
                         </p>
                         <p>Payment : {prod.payment_status}</p>{" "}
                       </div>
-                      <button className="cancelorder"  onClick={(e) => cancelorder(prod._id , e)} >cancel order</button>
+                      <button
+                        className="cancelorder"
+                        onClick={(e) => cancelorder(prod._id, e)}
+                      >
+                        cancel order
+                      </button>
                     </div>
                   ))}
                 </div>

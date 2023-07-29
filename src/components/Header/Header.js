@@ -115,7 +115,7 @@ const Header = () => {
             <img
               src={
                 user?.profilePic
-                  ? `http://localhost:8080/${user?.profilePic}`
+                  ? `${user?.profilePic}`
                   : Avtar
               }
               alt="profileImg"
@@ -134,7 +134,7 @@ const Header = () => {
             <img
               src={
                 user?.profilePic
-                  ? `http://localhost:8080/${user?.profilePic}`
+                  ? `${user?.profilePic}`
                   : Avtar
               }
               alt="profileImg"
