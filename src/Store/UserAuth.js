@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const UserDetail = createSlice({
   name: "user",
   initialState: {
-    user: null,
+    user: localStorage.getItem("token") ? localStorage.getItem("token") : null,
   },
   reducers: {
     UserFun: (state, action) => {
@@ -12,8 +12,6 @@ const UserDetail = createSlice({
 
     Logout: (state) => {
       state.user = null;
-      state.UserDetail = null;
-      localStorage.removeItem("token", "cartData");
     },
   },
 });

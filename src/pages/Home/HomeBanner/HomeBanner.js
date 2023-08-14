@@ -13,30 +13,34 @@ function HomeBanner() {
     }
   };
   return (
-    <div className="homeBanner">
-      <div className="Background-img">
-        <img src={Shopping} />
-      </div>
-      <div className="opacity-layer"> </div>
-      <ContentWrapper>
-        <div className="homeDetailContainer">
-          <span className="title">Welcome</span>
-          <p className="subTitle">start your Shopping with us</p>
-          <div className="searchInput">
-            <input
-              type="text"
-              placeholder="search your Products..."
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyUp={searchQueryHandler}
-            />
-            <button>search</button>
-          </div>
-        </div>
-        <div className="homeImageContainer">
-          <img className="Homeimage" src={Shopping} />
-        </div>
-      </ContentWrapper>
+    <section className="homeBanner" role="banner">
+    <div className="Background-img">
+      <img src={Shopping} alt="Shopping Banner" />
     </div>
+    <div className="opacity-layer" aria-hidden="true"></div>
+    <ContentWrapper>
+      <div className="homeDetailContainer">
+        <h1 className="title">Welcome</h1>
+        <p className="subTitle">Start your Shopping with us</p>
+        <div className="searchInput">
+          <label htmlFor="searchProducts" className="visually-hidden">
+            Search your Products
+          </label>
+          <input
+            type="text"
+            id="searchProducts"
+            placeholder="Search your Products..."
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyUp={searchQueryHandler}
+          />
+          <button type="submit">Search</button>
+        </div>
+      </div>
+      <div className="homeImageContainer">
+        <img className="Homeimage" src={Shopping} alt="Shopping Banner" />
+      </div>
+    </ContentWrapper>
+  </section>
   );
 }
 

@@ -36,7 +36,7 @@ function Cart() {
   const buyNowHandler = (data) => {
     buyProduct(`/purchase/placeOrder`, data)
       .then((res) => {
-        console.log(res, "buyproduct");
+         (res, "buyproduct");
         paymentHandler("/payment/checkout", {
           amount: res.data.amount,
           userId: res.data.user,
@@ -45,13 +45,13 @@ function Cart() {
           email: user.email,
         })
           .then((res) => {
-            console.log(res, "response at handle ");
+             (res, "response at handle ");
           })
           .catch((error) => {
-            console.log(error);
+             (error);
           });
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>  (error));
   };
 
   const addtoCart = (prod, e) => {
@@ -65,18 +65,18 @@ function Cart() {
   };
 
   return (
-    <div className="cartPage">
+    <main className="cartPage">
       <ContentWrapper>
         {user ? (
-          <div className="AfterLogin">
-            {!Cart?.length == 0 ? (
+          <section className="AfterLogin" aria-label="User Cart Section">
+            {Cart?.length !== 0 ? (
               <div className="cartsection">
                 <div>
-                  <p className="shopingHeader">Shopping-Cart</p>
+                  <h2 className="shopingHeader">Shopping Cart</h2>
                   <p className="cartLength">
-                    {" "}
-                    you have {Cart.length} item in cartItem{" "}
-                  </p>{" "}
+                    You have {Cart.length}{" "}
+                    {Cart.length === 1 ? "item" : "items"} in your cart
+                  </p>
                 </div>
                 <div className="cartItems">
                   {Cart?.map((prod) => (
@@ -84,18 +84,31 @@ function Cart() {
                       className="cartItem"
                       onClick={() => navigate(`/details/${prod.id}`)}
                       key={prod.id}
+                      tabIndex="0"
+                      role="button"
+                      aria-label={`View details of ${prod.title}`}
                     >
                       <div className="imgCont">
-                        <img src={prod.thumbnail} />
+                        <img src={prod.thumbnail} alt={prod.title} />
                         <p>{prod?.title?.slice(0, 15)}</p>
                       </div>
                       <p>
-                        {prod.price} <BsCurrencyRupee />{" "}
+                        {prod.price} <BsCurrencyRupee />
                       </p>
                       <div className="icons">
-                        <span onClick={(e) => addtoCart(prod, e)}>+</span>
-                        {prod.quantity}
-                        <span onClick={(e) => removeFromCart(prod, e)}>-</span>
+                        <button
+                          onClick={(e) => addtoCart(prod, e)}
+                          aria-label={`Add one ${prod.title} to cart`}
+                        >
+                          +
+                        </button>
+                        <span aria-hidden="true">{prod.quantity}</span>
+                        <button
+                          onClick={(e) => removeFromCart(prod, e)}
+                          aria-label={`Remove one ${prod.title} from cart`}
+                        >
+                          -
+                        </button>
                       </div>
                       <p>
                         {prod.price * prod.quantity} <BsCurrencyRupee />
@@ -105,14 +118,13 @@ function Cart() {
                 </div>
                 <div className="btnContainer">
                   <button onClick={() => navigate("/products")}>
-                    continue Shopping
+                    Continue Shopping
                   </button>
-                  <button onClick={ClearAllItem}>clear All</button>
+                  <button onClick={ClearAllItem}>Clear All</button>
                 </div>
                 <div className="amountBox">
                   <p>
-                    {" "}
-                    Total - {totalamount} <BsCurrencyRupee />{" "}
+                    Total - {totalamount} <BsCurrencyRupee />
                   </p>
                   <button
                     onClick={() =>
@@ -123,30 +135,31 @@ function Cart() {
                         addresses: user.addresses,
                       })
                     }
+                    aria-label="Proceed to checkout"
                   >
-                    {" "}
-                    Buy Now{" "}
+                    Buy Now
                   </button>
                 </div>
               </div>
             ) : (
               <div className="additemToCart">
-                <img src={ShopingImg} /> <p> No Such Item in cart </p>{" "}
+                <img src={ShopingImg} alt="No items in cart" />
+                <p>No items in cart</p>
                 <button onClick={() => navigate("/products")}>
-                  start Shopping
+                  Start Shopping
                 </button>
               </div>
             )}
-          </div>
+          </section>
         ) : (
-          <div className="LoginFirst">
-            <img className="img" src={MissingItem} />
-            <p>Login to see the Cart Items</p>{" "}
+          <section className="LoginFirst">
+            <img className="img" src={MissingItem} alt="Missing Cart Items" />
+            <p>Login to see the Cart Items</p>
             <button onClick={() => navigate("/login")}>Login</button>
-          </div>
+          </section>
         )}
       </ContentWrapper>
-    </div>
+    </main>
   );
 }
 

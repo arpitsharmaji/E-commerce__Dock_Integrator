@@ -5,9 +5,10 @@ import Img from "../../components/LazyLoading/Img";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 import avtar from "../../assets/avatar.png";
 import { HiOutlinePencil } from "react-icons/hi";
+import { AiOutlineFileAdd, AiFillDelete } from "react-icons/ai";
 import {
   updateUser,
-  cancelOrders,
+  removeItemFromDb,
   getuserdetails,
   fetchDetailsfromApi,
 } from "../../Api/Api";
@@ -17,7 +18,9 @@ import { Logout } from "../../Store/UserAuth";
 import { BsCurrencyRupee } from "react-icons/bs";
 import OrderModel from "../../components/OrderModel/OrderModel";
 import { UserFun } from "../../Store/UserAuth";
+import { productAddedBySeller } from "../../Store/ProductSlice";
 import axios from "axios";
+import AddForm from "../../components/Addproduct/AddProduct";
 
 function Profile() {
   const { user } = useSelector((state) => state.user);
@@ -35,7 +38,7 @@ function Profile() {
   const preset_key = "shopbagprofile";
   const cloud_name = "dygbz1kio";
 
-  // const handlefile = ()
+  const { sellerProduct } = useSelector((state) => state.AllProducts);
 
   const handlechange = (e) => {
     const { name, value } = e.target;
@@ -63,32 +66,18 @@ function Profile() {
                 return res;
               })
               .catch((error) => {
-                console.log(error);
+                 (error);
                 return error;
               });
           })
           .catch((err) => {
-            console.log(err);
+             (err);
           })
       )
-      .catch((err) => console.log(err));
+      .catch((err) =>  (err));
   };
 
-  
-
   const userId = user?._id;
-
-  useEffect(() => {
-    if (userId) {
-      fetchDetailsfromApi(`/purchase/${userId}`)
-        .then((res) => {
-          dispatch(getOrders(res));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [userId, user?.orders]);
 
   const LoginFirst = () => {
     Navigate("/login");
@@ -96,7 +85,7 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formdata, "form");
+     (formdata, "form");
     if (Object.keys(formdata).length === 0) {
       setError("please inset something ");
     } else {
@@ -110,12 +99,12 @@ function Profile() {
               return res;
             })
             .catch((error) => {
-              console.log(error);
+               (error);
               return error;
             });
         })
         .catch((err) => {
-          console.log(err);
+           (err);
         });
     }
   };
@@ -126,36 +115,103 @@ function Profile() {
 
   const logoutHandler = () => {
     dispatch(Logout());
+    localStorage.clear();
     Navigate("/");
   };
 
-  const cancelorder = (id, e) => {
+  const removeItem = (id, e) => {
     e.stopPropagation();
-    cancelOrders(`/purchase/${id}`)
-      .then((res) => {
-        if (user?._id) {
-          fetchDetailsfromApi(`/purchase/${user?._id}`)
-            .then((res) => {
-              dispatch(getOrders(res));
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (user?.role === "user") {
+      removeItemFromDb(`/purchase/${id}`)
+        .then((res) => {
+          if (user?._id) {
+            fetchDetailsfromApi(`/purchase/${user?._id}`)
+              .then((res) => {
+                dispatch(getOrders(res));
+              })
+              .catch((error) => {
+                 (error);
+              });
+          }
+        })
+        .catch((error) => {
+           (error);
+        });
+    } else {
+      removeItemFromDb(`/products/${id}`)
+        .then((res) => {
+          if (user?._id) {
+            fetchDetailsfromApi(`/products/seller/${user?._id}`)
+              .then((res) => {
+                dispatch(productAddedBySeller(res));
+              })
+              .catch((error) => {
+                 (error);
+              });
+          }
+        })
+        .catch((error) => {
+           (error);
+        });
+    }
   };
 
+  const [ShowForm, setShowForm] = useState(false);
+  const [editproductItem, setEditProductItem] = useState("");
+  const [editableShow, setEditableShow] = useState(false);
+  const [ProductId, setProductId] = useState("");
+
+  const openForm = () => {
+    setShowForm(true);
+  };
+
+  const editProductDetail = (item) => {
+    setShowForm(true);
+    setEditProductItem(item);
+    setEditableShow(true);
+    setProductId(item.id);
+  };
+
+  useEffect(() => {
+     ("effect");
+    if (user?.role === "seller") {
+      fetchDetailsfromApi(`/products/seller/${userId}`)
+        .then((res) => {
+          dispatch(productAddedBySeller(res));
+        })
+        .catch((error) => {
+           (error);
+        });
+    } else
+      fetchDetailsfromApi(`/purchase/${userId}`)
+        .then((res) => {
+          dispatch(getOrders(res));
+        })
+        .catch((error) => {
+           (error);
+        });
+  }, [user?.orders, user?.role, ShowForm]);
+
   return (
-    <div className="profilePage">
+    <main className="profilePage" role="main">
+      {ShowForm && (
+        <AddForm
+          setShowForm={setShowForm}
+          ShowForm={ShowForm}
+          editableShow={editableShow}
+          editproductItem={editproductItem}
+          setEditableShow={setEditableShow}
+          ProductId={ProductId}
+          Id={userId}
+        />
+      )}
       <ContentWrapper>
         {!user ? (
           <div className="beforeLogin">
+            <h1>Welcome to Your Profile Page</h1>
             <p>
               To access the profile creation feature, kindly log in or sign in
-              first. Thank you for your cooperation.{" "}
+              first. Thank you for your cooperation.
             </p>
             <button className="btn" onClick={LoginFirst}>
               Login first
@@ -166,27 +222,33 @@ function Profile() {
             <div className="profiledetails">
               <div className="ImageContainer">
                 <div className="uploadicon">
-                  <label htmlFor="input">{<HiOutlinePencil />}</label>
+                  <label
+                    htmlFor="profileImageInput"
+                    aria-label="Edit Profile Picture"
+                  >
+                    {<HiOutlinePencil />}
+                  </label>
                   <input
-                    id="input"
+                    id="profileImageInput"
                     style={{ display: "none" }}
                     type="file"
                     onChange={AddProfileimage}
+                    aria-label="Upload Profile Picture"
                   />
                 </div>
                 <img
                   className="profilePic"
                   src={user?.profilePic ? `${user?.profilePic}` : avtar}
+                  alt="Profile Picture"
                 />
               </div>
               <div className="basicdetails">
                 {!editForm ? (
-                  <div className="detais">
-                    <p className="name">{user?.name}</p>
+                  <div className="details">
+                    <h2 className="name">{user?.name}</h2>
                     <p className="email">{user?.email}</p>
                     <p>{user?.addresses}</p>
                     <div className="deleteBtnContainer">
-                      {" "}
                       <button onClick={logoutHandler}>Logout</button>
                     </div>
                   </div>
@@ -211,66 +273,127 @@ function Profile() {
                   </form>
                 )}
 
-                <button className="edit_goBack" onClick={toggleedit}>
-                  {editForm ? `go Back` : "edit"}
+                <button
+                  className="edit_goBack"
+                  onClick={toggleedit}
+                  aria-label={editForm ? "Go Back" : "Edit Profile"}
+                >
+                  {editForm ? "Go Back" : "Edit"}
                 </button>
               </div>
             </div>
             <hr />
-            <div className="orderSection">
-              {orders.length == 0 ? (
-                <div className="noOrders">
-                  {" "}
-                  <p className="orderHeading">All Orders</p>
-                  <button className="btn" onClick={() => Navigate("/products")}>
-                    {" "}
-                    start shopping{" "}
-                  </button>
-                </div>
-              ) : (
-                <div className="allorders">
-                  <p className="orderHeading">Order</p>
-                  {orders.map((prod) => (
-                    <div
-                      className="orderdetails"
-                      onClick={() => {
-                        setOrderedItem(prod), setOpenModel(true);
-                      }}
-                      key={prod._id}
-                    >
-                      <div className="itemDetails">
-                        {prod.items.map((item) => (
-                          <div key={item.id}>
-                            <Img className="image" src={item.thumbnail} />
-                            <div>
-                              <p className="quantity">
-                                {" "}
-                                {item.quantity
-                                  ? `Quantity : ${item.quantity}`
-                                  : "Quantity : 1"}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="productdetail">
-                        {" "}
-                        <p className="amount">
-                          {prod.amount} <BsCurrencyRupee />{" "}
-                        </p>
-                        <p>Payment : {prod.payment_status}</p>{" "}
-                      </div>
-                      <button
-                        className="cancelorder"
-                        onClick={(e) => cancelorder(prod._id, e)}
-                      >
-                        cancel order
-                      </button>
+            {user?.role === "seller" ? (
+              <section className="sellerProductSection">
+                <h1>
+                  {sellerProduct.length === 0
+                    ? "Add some Products"
+                    : "Products Added by seller "}
+                </h1>
+                {sellerProduct.map((item) => (
+                  <section
+                    key={item?.id}
+                    className="sellerProducts"
+                    onClick={() => Navigate(`/details/${item?.id}`)}
+                  >
+                    <img className="productImg" src={item?.thumbnail} />
+                    <div className="productdetails">
+                      <p> Title: {item?.title} </p>
+                      <p>Price :{item?.price}</p>
                     </div>
-                  ))}
+                    <div className="icons">
+                      <p
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        className="edit"
+                      >
+                        <HiOutlinePencil
+                          onClick={() => editProductDetail(item)}
+                        />
+                      </p>
+                      <p>
+                        <AiFillDelete
+                          className="delete"
+                          onClick={(e) => removeItem(item?.id, e)}
+                        />
+                      </p>
+                    </div>
+                  </section>
+                ))}
+
+                <div className="addProduct" onClick={openForm}>
+                  <p className="addicon">
+                    {" "}
+                    <AiOutlineFileAdd />
+                  </p>
+                  <p>Add Product</p>
                 </div>
-              )}
-            </div>
+              </section>
+            ) : (
+              <div className="orderSection">
+                {orders?.length === 0 ? (
+                  <div className="noOrders">
+                    <h2>All Orders</h2>
+                    <button
+                      className="btn"
+                      onClick={() => Navigate("/products")}
+                    >
+                      Start Shopping
+                    </button>
+                  </div>
+                ) : (
+                  <div className="allorders">
+                    <h2>Order History</h2>
+                    {orders?.map((prod) => (
+                      <div
+                        className="orderdetails"
+                        onClick={() => {
+                          setOrderedItem(prod);
+                          setOpenModel(true);
+                        }}
+                        key={prod._id}
+                        role="button"
+                        tabIndex="0"
+                        aria-label={`View details of Order ${prod._id}`}
+                      >
+                        <div className="itemDetails">
+                          {prod.items.map((item) => (
+                            <div key={item.id}>
+                              <Img
+                                className="image"
+                                src={item.thumbnail}
+                                alt={`Product Image ${item.id}`}
+                              />
+                              <div>
+                                <p className="quantity">
+                                  {item.quantity
+                                    ? `Quantity : ${item.quantity}`
+                                    : "Quantity : 1"}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="productdetail">
+                          <p className="amount">
+                            {prod.amount} <BsCurrencyRupee />{" "}
+                          </p>
+                          <p>Payment : {prod.payment_status}</p>
+                        </div>
+                        <button
+                          className="removeItem"
+                          onClick={(e) => removeItem(prod._id, e)}
+                          aria-label={`Cancel Order ${prod._id}`}
+                        >
+                          Cancel Order
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </ContentWrapper>
@@ -280,7 +403,7 @@ function Profile() {
         orderedItem={orderedItem}
         setOrderedItem={setOrderedItem}
       />
-    </div>
+    </main>
   );
 }
 

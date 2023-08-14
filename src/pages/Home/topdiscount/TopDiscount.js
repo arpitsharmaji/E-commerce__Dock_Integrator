@@ -3,22 +3,22 @@ import { useSelector } from "react-redux";
 import Carousel from "../../../components/Carousel/Carousel";
 import ContentWrapper from "../../../components/ContentWrapper/ContentWrapper";
 
-function topdiscount() {
+function Topdiscount() {
   const { products, loading } = useSelector((state) => state.AllProducts);
 
   const Topdiscount = products
-    .filter((item) => item.discountPercentage >= 16)
+    ?.filter((item) => item.discountPercentage >= 16)
     .sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1))
     .slice(0, 19);
 
   return (
-    <div className="carouselSection">
-      <ContentWrapper>
-        <div className="carouselTitle">Top Discount</div>
-      </ContentWrapper>
-      <Carousel Data={Topdiscount} loading={loading} />
-    </div>
+<section className="carouselSection" aria-label="Top Discount Carousel Section">
+  <ContentWrapper>
+    <h2 className="carouselTitle">Top Discount</h2>
+  </ContentWrapper>
+  <Carousel Data={Topdiscount} loading={loading} aria-label="Top Discount Carousel" />
+</section>
   );
 }
 
-export default topdiscount;
+export default Topdiscount;

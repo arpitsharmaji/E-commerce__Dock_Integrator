@@ -9,34 +9,19 @@ import Header from "./components/Header/Header";
 import CartPage from "./pages/CartPage/Cart";
 import Footer from "./components/Footer/Footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { fetchDetailsfromApi, getuserdetails } from "./Api/Api";
+import { fetchDetailsfromApi } from "./Api/Api";
 import { getAllProducts, loadingState } from "../src/Store/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "./pages/Registeration/Login/Login";
 import Register from "./pages/Registeration/Register/Register";
 import ScrollToTop from "./components/ScrollToTop";
-import { UserFun } from "./Store/UserAuth";
-
+import PageNotFound from "./assets/404.jpg";
 import "./App.scss";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
-  console.log(user);
-
-  useEffect(() => {
-    getuserdetails("/Auth/profile")
-      .then((res) => {
-        dispatch(UserFun(res));
-        return res;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
-  }, []);
-
   const fetchData = () => {
     dispatch(loadingState(true));
     fetchDetailsfromApi("/products").then((res) => {
@@ -51,8 +36,33 @@ const App = () => {
   const { Cart } = useSelector((state) => state.cart);
 
   useEffect(() => {
-    localStorage.setItem("cartData", JSON.stringify(Cart)); // create
+    localStorage.setItem("cartData", JSON.stringify(Cart));
   }, [Cart]);
+
+  const UserElement = ({ children }) => {
+    if (user?.role !== "seller") {
+      return <>{children}</>;
+    } else {
+      return (
+        <main style={{ width: "100%", height: "700px" }}>
+          <section
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <h1 style={{ fontSize: "4rem", color: "blue" }}> 403 </h1>
+            <h3 style={{ fontSize: "2rem" }}>Forbidden resource</h3>
+          </section>
+        </main>
+      );
+    }
+  };
+  
 
   return (
     <BrowserRouter>
@@ -67,7 +77,39 @@ const App = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/products/details" element={<Details />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/cart" element={<CartPage />} />
+        <Route
+          path="/cart"
+          element={
+            <UserElement>
+              <CartPage />
+            </UserElement>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <main style={{ width: "100%", height: "700px" }}>
+              <section
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <div style={{ width: "40%", height: "30%" }}>
+                  <img
+                    style={{ width: "100%", height: "100%" }}
+                    src={PageNotFound}
+                  />
+                </div>
+                <h2> Page not Found </h2>
+              </section>
+            </main>
+          }
+        />
       </Routes>
       <Footer />
     </BrowserRouter>

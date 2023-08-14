@@ -38,54 +38,63 @@ function Carousel({ Data, loading }) {
   };
 
   return (
-    <div className="carousel">
-      <ContentWrapper>
-        <BsFillArrowLeftCircleFill
-          className="carouselLeftNav arrow"
-          onClick={() => navigation("left")}
-        />
+    <section className="carousel" role="region" aria-label="Product Carousel">
+  <ContentWrapper>
+    <button
+      className="carouselLeftNav arrow"
+      onClick={() => navigation("left")}
+      aria-label="Previous Slide"
+    >
+      <BsFillArrowLeftCircleFill />
+    </button>
 
-        <BsFillArrowRightCircleFill
-          className="carouselRighttNav arrow"
-          onClick={() => navigation("right")}
-        />
-        {!loading ? (
-          <div className="carouselItems" ref={CarouselContainer}>
-            {Data?.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => navigate(`/details/${item.id}`)}
-                className="carouselItem"
-              >
-                <Img
-                  src={item.thumbnail}
-                  className="thumbnailImg"
-                  alt="productImg"
-                />
-                <div className="title">{item.title.slice(0, 20)}</div>
-                <div className="ratting">
-                  {item.rating} <AiFillStar />{" "}
-                </div>
-                <div className="discount">
-                  Discount :{item.discountPercentage} %
-                </div>
-                <div className="discount">
-                  Price : <BsCurrencyRupee /> {item.price}
-                </div>
-              </div>
-            ))}
+    <button
+      className="carouselRighttNav arrow"
+      onClick={() => navigation("right")}
+      aria-label="Next Slide"
+    >
+      <BsFillArrowRightCircleFill />
+    </button>
+    {!loading ? (
+      <div className="carouselItems" ref={CarouselContainer}>
+        {Data?.map((item) => (
+          <div
+            key={item.id}
+            onClick={() => navigate(`/details/${item.id}`)}
+            className="carouselItem"
+            role="button"
+            tabIndex="0"
+            aria-label={`View details of ${item.title}`}
+          >
+            <Img
+              src={item.thumbnail}
+              className="thumbnailImg"
+              alt="Product Image"
+            />
+            <div className="title">{item.title.slice(0, 20)}</div>
+            <div className="ratting" aria-label={`Rating: ${item.rating}`}>
+              {item.rating} <AiFillStar />
+            </div>
+            <div className="discount">
+              Discount: {item.discountPercentage} %
+            </div>
+            <div className="discount">
+              Price: <BsCurrencyRupee /> {item.price}
+            </div>
           </div>
-        ) : (
-          <div className="loadingSkeleton">
-            {skItem()}
-            {skItem()}
-            {skItem()}
-            {skItem()}
-            {skItem()}
-          </div>
-        )}
-      </ContentWrapper>
-    </div>
+        ))}
+      </div>
+    ) : (
+      <div className="loadingSkeleton">
+        {skItem()}
+        {skItem()}
+        {skItem()}
+        {skItem()}
+        {skItem()}
+      </div>
+    )}
+  </ContentWrapper>
+</section>
   );
 }
 

@@ -1,4 +1,4 @@
-.registeration,
+.registration,
 .login {
   width: 100%;
   height: 700px;
@@ -23,24 +23,44 @@
         align-self: center;
         justify-content: center;
         gap: 1rem;
-        input {
-          border-radius: 2rem;
-          border: none;
-          padding: 0.5rem;
-          color: #fff;
-          background-color: var(--black-lighter);
+        .formField {
+          label{
+            display: none;
+          }
+          input {
+            border-radius: 2rem;
+            border: none;
+            padding: 0.5rem;
+            color: #fff;
+            background-color: var(--black-lighter);
+          }
+          ::placeholder {
+            color: #fff;
+          }
         }
-        ::placeholder {
-          color: #fff;
-        }
-        span {
-          text-decoration: underline;
-          color: var(--black-lighter);
+
+        // span {
+        //   text-decoration: underline;
+        //   color: var(--black-lighter);
+        // }
+        .btnContainer {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .submit {
+            border-radius: 2rem;
+            border: none;
+            width: 5rem;
+            background-color: var(--pink);
+            color: #fff;
+            padding: 0.5rem;
+          }
         }
         .submit {
           border-radius: 2rem;
           border: none;
-          width: 4rem;
+          width: 5rem;
           background-color: var(--pink);
           color: #fff;
           padding: 0.5rem;

@@ -29,24 +29,42 @@
         flex-direction: row;
       }
 
-      #sortBy,
-      #category {
-        width: 7rem;
-        margin-top: 1rem;
-        margin-right: 1rem;
-        border: none;
-        padding: 0.5rem;
-        background-color: purple;
-        color: blanchedalmond;
-        border-radius: 2rem;
-
-        @include smm {
-          margin-top: 0;
-          width: auto;
-          margin-right: 2rem;
+      .selectors {
+        display: flex;
+        flex-direction: row;
+        label {
+          display: none;
         }
-        option {
-          font-size: 1.2rem;
+        #sortBy,
+        #category {
+          width: auto;
+          margin-top: 1rem;
+          margin-right: 1rem;
+          border: none;
+          padding: 0.5rem;
+          background-color: purple;
+          color: blanchedalmond;
+          border-radius: 2rem;
+
+          @include smm {
+            margin-top: 0;
+            width: auto;
+            margin-right: 2rem;
+          }
+          option {
+            font-size: 1.2rem;
+          }
+        }
+        .addProduct {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .addicon {
+            font-size: 2rem;
+          }
+          p {
+            font-size: 1.2rem;
+          }
         }
       }
     }
@@ -70,6 +88,9 @@
         }
 
         .ImageContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           position: relative;
           width: 100%;
           height: 300px;
@@ -78,7 +99,13 @@
           @include mds {
             width: 200px;
           }
-
+.updateProfilePencil{
+   font-size: 2rem;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+}
           .lazy-load-image-background {
             width: 100%;
             height: 100%;
@@ -91,6 +118,10 @@
               object-position: center;
             }
           }
+          .updateProfile{
+        font-size: 4rem;
+      
+      }
         }
         .details {
           display: flex;
@@ -103,7 +134,7 @@
             }
           }
 
-          .ratting {
+          .rating {
             margin: 0.5rem;
             display: flex;
             align-items: center;
@@ -126,7 +157,7 @@
 
           .discount {
             margin: 0.5rem;
-            padding: .5rem;
+            padding: 0.5rem;
             @include mds {
               margin: 1rem;
             }

@@ -28,14 +28,13 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/Auth/login", formData)
+      .post("/Auth/login", formData)
       .then((res) => {
         const { token, user } = res.data;
-        console.log(token, user);
         localStorage.setItem("token", token);
         dispatch(UserFun(user));
         toast.success("login Sucessfully");
-        navigate("/");
+        navigate("/")
       })
       .catch((error) => {
         toast.error(`${error.response.data}`);
@@ -45,39 +44,66 @@ function Login() {
   };
 
   return (
-    <div className="registeration">
-      <div className="formPage">
-        <div className="formcontainer">
-          <p className="title">Login</p>
-          <form onSubmit={handleSubmit}>
+    <main className="login">
+    <section className="formPage">
+      <div className="formcontainer" role="main">
+        <h2 className="title">Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="formField">
+            <label htmlFor="email">Email:</label>
             <input
-              placeholder="email"
+              id="email"
+              placeholder="email address"
               type="email"
               onChange={handleChange}
               name="email"
               value={formData.email}
               required
+              aria-required="true"
+              autoComplete="email"
+              aria-label="Email"
             />
+          </div>
+          <div className="formField">
+            <label htmlFor="password">Password:</label>
             <input
+              id="password"
               required
               type="password"
               placeholder="password"
               onChange={handleChange}
               name="password"
               value={formData.password}
+              aria-required="true"
+              autoComplete="current-password"
+              aria-label="Password"
             />
-            <p>
-              {" "}
-              Don't have an account{" "}
-              <span onClick={() => navigate("/register")}>register</span>{" "}
+          </div>
+          <p>
+            Don't have an account?{" "}
+            <span
+              onClick={() => navigate("/register")}
+              role="button"
+              tabIndex="0"
+              aria-label="Register"
+            >
+              Register
+            </span>{" "}
+          </p>
+          {error && (
+            <p className="error" aria-live="polite">
+              {error}
             </p>
-            <p className="error"  >{error}</p>
-            <button className="submit"> Login </button>
-          </form>
-        </div>
+          )}
+          <button type="submit" className="submit">
+            Login
+          </button>
+        </form>
       </div>
-      <ToastContainer />
-    </div>
+    </section>
+    <ToastContainer />
+  </main>
+  
   );
 }
 

@@ -51,9 +51,9 @@
         border-radius: 12px;
         @include md {
           max-width: 300px;
-         max-height: 400px;
+          max-height: 400px;
         }
-        .uploadicon{
+        .uploadicon {
           position: absolute;
           top: 0;
           left: 0;
@@ -76,7 +76,7 @@
         @include sdm {
           width: 80%;
         }
-        .detais {
+        .details {
           display: flex;
           width: 50%;
           flex-direction: column;
@@ -145,7 +145,7 @@
           }
           textarea {
             resize: none;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
             color: #fff;
             background-color: var(--black-lighter);
             height: 100px;
@@ -186,6 +186,69 @@
             font-size: 1rem;
           }
         }
+      }
+    }
+
+    .sellerProductSection {
+      margin-top: 2rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      @include smm {
+        width: 50%;
+      }
+
+      .sellerProducts {
+        padding: 16px;
+        width: 100%;
+        font-size: 14px;
+        overflow: hidden;
+        transition: box-shadow 0.1s linear;
+        background-color: #fff;
+        border: 1px solid #dbdbdb;
+        position: relative;
+        cursor: pointer;
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.15);
+        margin-bottom: 8px;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .productImg {
+          opacity: 1;
+          max-width: 40px;
+          max-height: 40px;
+          @include ssm {
+            max-width: 80px;
+            max-height: 80px;
+          }
+          @include smm {
+            max-width: 100px;
+            max-height: 100px;
+          }
+        }
+        .productdetails {
+          font-size: 1rem;
+        }
+        .icons {
+          font-size: 1.2rem;
+          width: 10%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .edit,
+          .delete {
+            border: none;
+          }
+        }
+      }
+      .addProduct{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-size: 1.5rem;
       }
     }
 
@@ -262,10 +325,10 @@
                 max-height: 100px;
               }
             }
-            .quantity{
+            .quantity {
               display: none;
               @include ssm {
-               display: block;
+                display: block;
               }
             }
           }
@@ -276,10 +339,10 @@
             align-items: center;
             width: 100%;
 
-            .selectedAdress{
+            .selectedAdress {
               display: none;
               @include ssm {
-              display: block;
+                display: block;
               }
             }
           }
@@ -290,7 +353,7 @@
             width: 100px;
             border: none;
             border-radius: 2rem;
-      
+
             @include smm {
               width: 200px;
             }

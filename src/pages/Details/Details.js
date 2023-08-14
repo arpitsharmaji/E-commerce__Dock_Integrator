@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ColorRing } from "react-loader-spinner";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 import Img from "../../components/LazyLoading/Img";
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineFileAdd } from "react-icons/ai";
 import { BsCurrencyRupee } from "react-icons/bs";
 import Carousel from "../../components/Carousel/Carousel";
 import { AddItemToCart } from "../../Store/Cart";
-import { paymentHandler, buyProduct } from "../../Api/Api";
-
+import {
+  paymentHandler,
+  buyProduct,
+  updateProduct,
+  fetchDetailsfromApi,
+} from "../../Api/Api";
 import "./Details.scss";
+import { loadingState} from "../../Store/ProductSlice";
 
 function Details() {
   const { products, loading } = useSelector((state) => state.AllProducts);
 
   const { user } = useSelector((state) => state.user);
-
   const navigate = useNavigate();
   const [btnText, setBtntext] = useState("Add to cart");
 
@@ -34,11 +39,13 @@ function Details() {
     }
   };
 
+  const preset_key = "productImages";
+  const cloud_name = "dygbz1kio";
+
   const buyNowHandler = (data) => {
     if (user) {
       buyProduct(`/purchase/placeOrder`, data)
         .then((res) => {
-          console.log(res, "buyproduct");
           paymentHandler("/payment/checkout", {
             amount: res.data.amount,
             userId: res.data.user,
@@ -47,13 +54,13 @@ function Details() {
             email: user?.email,
           })
             .then((res) => {
-              console.log(res);
+               (res);
             })
             .catch((error) => {
-              console.log(error);
+               (error);
             });
         })
-        .catch((error) => console.log(error));
+        .catch((error) =>  (error));
     } else {
       navigate("/login");
     }
@@ -86,84 +93,159 @@ function Details() {
     setMainImg(detailProduct[0]?.images[index]);
   };
 
+  const uploadSubImages = (id, e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("upload_preset", preset_key);
+      form.append("cloud_name", "");
+      axios
+        .post(
+          `
+          https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+          form
+        )
+        .then((res) =>
+          updateProduct(`/products/${id}`, {
+            images: res.data.secure_url,
+          })
+            .then(
+              dispatch(loadingState(true)),
+              fetchDetailsfromApi(`/products/${id}`).then((res) => {
+                setDetails([res]);
+                dispatch(loadingState(false));
+                return res;
+              })
+            )
+            .catch((error) =>  (error))
+        )
+        .catch((error) =>  (error));
+    }
+  };
+
   return (
-    <div className="detailsPage">
+    <main className="detailsPage">
       <ContentWrapper>
         {loading && (
-          <ColorRing
-            visible={true}
-            height="100"
-            width="100"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={["1c4b91", "173d77"]}
-          />
+          <div role="status" aria-live="polite" aria-busy="true">
+            <ColorRing
+              visible={true}
+              height="100"
+              width="100"
+              aria-label="Loading blocks"
+              role="progressbar"
+              wrapperStyle={{}}
+              wrapperClass="blocks-wrapper"
+              colors={["1c4b91", "173d77"]}
+            />
+          </div>
         )}
 
         {detailProduct?.map((item) => (
-          <div className="details" key={item?.id}>
+          <article className="details" key={item?.id}>
             <div className="productDetail">
               <div className="imagecollection">
-                {item?.images?.map((img, index) => (
-                  <img
-                    key={index}
-                    onClick={() => showMainImg(index)}
-                    src={img}
-                    className="image"
-                  />
-                ))}
+                {user?.role === "seller" && user?._id === item?.sellerId ? (
+                  <section>
+                    {[0, 1, 2, 3].map((index) => (
+                      <div className="getProductImg" key={index}>
+                        {item?.images?.[index] ? (
+                          <img
+                            onClick={() => showMainImg(index)}
+                            src={
+                              item?.images[index] && `${item?.images[index]}`
+                            }
+                            className="image"
+                            alt="Product Image"
+                          />
+                        ) : (
+                          <p>
+                            <label htmlFor={`detailImage${index}`}>
+                              <AiOutlineFileAdd />
+                            </label>
+                            <input
+                              id={`detailImage${index}`}
+                              style={{ display: "none" }}
+                              type="file"
+                              onChange={(e) => uploadSubImages(item.id, e)}
+                              aria-label="Upload thumbnail"
+                            />
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </section>
+                ) : item?.images?.length === 0 ? (
+                  <p> Images not uploaded </p>
+                ) : (
+                  item?.images?.map((img, index) => (
+                    <img
+                      key={index}
+                      onClick={() => showMainImg(index)}
+                      src={img}
+                      className="image"
+                      alt={`Product Image ${index}`}
+                    />
+                  ))
+                )}
               </div>
               <div className="mainImagescreen">
-                <Img src={MainImage} />
+                <Img src={MainImage} alt="Main Product Image" />
               </div>
               <div className="details">
-                <p className="title">{item?.title}</p>
-                <p className="price"><BsCurrencyRupee/>{item?.price} {" "}
+                <h2 className="title">{item?.title}</h2>
+                <p className="price">
+                  <BsCurrencyRupee />
+                  {item?.price}{" "}
                 </p>
                 <p className="brand">{item?.brand}</p>
-                <p className="rating">
+                <div className="rating" aria-label={`Rating: ${item?.rating}`}>
                   {item?.rating} <AiFillStar />{" "}
-                </p>
+                </div>
                 <p className="discount">
                   {" "}
-                  upto {Math.round(item?.discountPercentage)}% off{" "}
+                  up to {Math.round(item?.discountPercentage)}% off{" "}
                 </p>
                 <p className="description">{item?.description}</p>
               </div>
-              
             </div>
-            <div className="btn">
-                  <button
-                    onClick={() =>
-                      buyNowHandler({
-                        amount: matchedProduct?.price,
-                        userId: user?._id,
-                        items: matchedProduct,
-                        addresses: user?.addresses,
-                      })
-                    }
-                  >
-                    {" "}
-                    Buy Now{" "}
-                  </button>
-                  <button onClick={() => DataToRedux(item)}>{btnText}</button>
-                </div>
+            {user?.role !== "seller" && (
+              <div className="btn">
+                <button
+                  onClick={() =>
+                    buyNowHandler({
+                      amount: matchedProduct?.price,
+                      userId: user?._id,
+                      items: matchedProduct,
+                      addresses: user?.addresses,
+                    })
+                  }
+                  aria-label="Buy Now"
+                >
+                  Buy Now
+                </button>
+                <button onClick={() => DataToRedux(item)} aria-label={btnText}>
+                  {btnText}
+                </button>
+              </div>
+            )}
             <p className="disc">{item?.description}</p>
 
-            <div className="SimilarProducts">
+            <section className="SimilarProducts">
               <h1>Similar products</h1>
               <Carousel
                 Data={products?.filter(
                   (prod) => prod.category === item?.category
                 )}
                 loading={loading}
+                aria-label="Similar Products Carousel"
               />
-            </div>
-          </div>
+            </section>
+          </article>
         ))}
       </ContentWrapper>
-    </div>
+    </main>
   );
 }
 

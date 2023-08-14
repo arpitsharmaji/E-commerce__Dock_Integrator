@@ -99,6 +99,9 @@ color: black;
    @include lg {
                width: 100%;
               }
+              label{
+                display: none;
+              }
 
       
             input {

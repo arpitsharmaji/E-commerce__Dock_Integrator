@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import "../Registeration.scss";
 import { SignupLogin } from "../../../Api/Api";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 function Register() {
   const initialData = {
     name: "",
     email: "",
     password: "",
-    role: "0",
   };
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialData);
   const [formError, setError] = useState(initialData);
-  const [isSubmit, setSubmit] = useState(false);
+  const [isUserSubmit, setUserSubmit] = useState(false);
+  const [isSellerSubmit, setSellerSubmit] = useState(false);
   const [commingError, setCommingError] = useState("");
 
   const handleChange = (e) => {
@@ -23,31 +23,57 @@ function Register() {
     setError(validate({ ...formData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleUserSubmit = (e) => {
     e.preventDefault();
-    setSubmit(true);
+    setUserSubmit(true);
   };
 
   useEffect(() => {
-    if (Object.keys(formError).length === 0 && isSubmit) {
-      SignupLogin("/Auth/signup", formData)
+    if (Object.keys(formError).length === 0 && isUserSubmit) {
+      SignupLogin("/Auth/signup", { ...formData, role: "user" })
         .then((res) => {
-          console.log(res.status);
+           (res.status);
           if (res.status === 200) {
             navigate("/login");
-          }else{
-            setCommingError("signup fail")
+          } else {
+            setCommingError("signup fail");
           }
         })
         .catch((error) => {
-          console.log(error);
-          setCommingError(error.response.data); // Assuming the server returns an error message in 'message' field.
+           (error);
+          setCommingError(error.response.data);
         })
         .finally(() => {
-          setSubmit(false); // Reset isSubmit after form submission.
+          setUserSubmit(false);
         });
     }
-  }, [formError, formData, navigate, SignupLogin, isSubmit]);
+  }, [formError, formData, navigate, SignupLogin, isUserSubmit]);
+
+  const handleSellerSubmit = (e) => {
+    e.preventDefault();
+    setSellerSubmit(true);
+  };
+
+  useEffect(() => {
+    if (Object.keys(formError).length === 0 && isSellerSubmit) {
+      SignupLogin("/Auth/signup", { ...formData, role: "seller" })
+        .then((res) => {
+           (res.status);
+          if (res.status === 200) {
+            navigate("/login");
+          } else {
+            setCommingError("signup fail");
+          }
+        })
+        .catch((error) => {
+           (error);
+          setCommingError(error.response.data);
+        })
+        .finally(() => {
+          setUserSubmit(false);
+        });
+    }
+  }, [formError, formData, isSellerSubmit]);
 
   function validate(value) {
     const error = {};
@@ -76,45 +102,109 @@ function Register() {
   }
 
   return (
-    <div className="registeration">
-      <div className="formPage">
-        <div className="formcontainer">
-          <p className="title">Register</p>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="userName"
-              onChange={handleChange}
-              name="name"
-              value={formData.name}
-            />
-            <p className="error">{formError.name}</p>
-            <input
-              type="email"
-              placeholder="email"
-              onChange={handleChange}
-              name="email"
-              value={formData.email}
-            />
-            <p className="error">{formError.email}</p>
-            <input
-              type="password"
-              placeholder="password"
-              onChange={handleChange}
-              name="password"
-              value={formData.password}
-            />
-            <p className="error">{formError.password}</p>
+    <main className="registration">
+      <section className="formPage">
+        <div className="formcontainer" role="main">
+          <h2 className="title">Register</h2>
+          <form>
+            <div className="formField">
+              <label htmlFor="name">Username:</label>
+              <input
+                id="name"
+                type="text"
+                placeholder="username"
+                onChange={handleChange}
+                name="name"
+                value={formData.name}
+                aria-required="true"
+                autoComplete="username"
+                aria-label="Username"
+                aria-invalid={formError.name ? "true" : "false"}
+              />
+              {formError.name && (
+                <p className="error" aria-live="polite">
+                  {formError.name}
+                </p>
+              )}
+            </div>
+            <div className="formField">
+              <label htmlFor="email">Email:</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="email address"
+                onChange={handleChange}
+                name="email"
+                value={formData.email}
+                aria-required="true"
+                autoComplete="email"
+                aria-label="Email"
+                aria-invalid={formError.email ? "true" : "false"}
+              />
+              {formError.email && (
+                <p className="error" aria-live="polite">
+                  {formError.email}
+                </p>
+              )}
+            </div>
+            <div className="formField">
+              <label htmlFor="password">Password:</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="password"
+                onChange={handleChange}
+                name="password"
+                value={formData.password}
+                aria-required="true"
+                autoComplete="new-password"
+                aria-label="Password"
+                aria-invalid={formError.password ? "true" : "false"}
+              />
+              {formError.password && (
+                <p className="error" aria-live="polite">
+                  {formError.password}
+                </p>
+              )}
+            </div>
             <p>
-              have a account{" "}
-              <span onClick={() => navigate("/login")}>login</span>
+              Already have an account?{" "}
+              <span
+                onClick={() => navigate("/login")}
+                role="button"
+                tabIndex="0"
+                aria-label="Login"
+              >
+                Login
+              </span>
             </p>
-            <p className="error">{commingError}</p>
-            <button className="submit"> Register </button>
+            {commingError && (
+              <p className="error" aria-live="polite">
+                {commingError}
+              </p>
+            )}
+            <div className="btnContainer">
+              <button
+                type="button"
+                className="submit"
+                onClick={handleUserSubmit}
+                aria-label="Register as Customer"
+              >
+                Customer
+              </button>
+              <button
+                type="button"
+                className="submit"
+                onClick={handleSellerSubmit}
+                aria-label="Register as Seller"
+              >
+                Seller
+              </button>
+            </div>
           </form>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 

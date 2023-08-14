@@ -59,96 +59,126 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(Logout());
-    navigate("/");
     setMobileMenu(false);
+    localStorage.clear();
+    navigate("/");
   };
 
   return (
-    <header className={`header ${mobileMenu ? "mobileView" : ""}`}>
+    <header
+      className={`header ${mobileMenu ? "mobileView" : ""}`}
+      role="banner"
+    >
       <ContentWrapper>
-        <div className="logo" onClick={nevigateToHome}>
-          <AiFillShop />
+        <div
+          className="logo"
+          onClick={nevigateToHome}
+          role="button"
+          tabIndex="0"
+        >
+          <AiFillShop aria-hidden="true" />
           ShopBag
         </div>
-        <ul className="menuItems">
-          <li
-            className="menuItem"
-            onClick={() => [
-              navigate("/products"),
-              setShowSearch(false),
-              setMobileMenu(false),
-            ]}
-          >
-            Products
-          </li>
-
-          <li
-            className="menuItem"
-            onClick={() => [
-              setMobileMenu(false),
-              setShowSearch(false),
-              navigate("/cart"),
-            ]}
-          >
-            <AiOutlineShoppingCart />
-          </li>
-          <li className="menuItem">
-            <HiOutlineSearch onClick={openSearch} />
-          </li>
-          {user === null ? (
+        <nav>
+          <ul className="menuItems" role="menubar">
             <li
               className="menuItem"
               onClick={() => [
-                navigate("/login"),
-                setMobileMenu(false),
+                navigate("/products"),
                 setShowSearch(false),
+                setMobileMenu(false),
               ]}
+              role="menuitem"
+              tabIndex="0"
             >
-              LOGIN
+              Products
             </li>
-          ) : (
-            <li className="menuItem" onClick={logoutHandler}>
-              Logout
+            {user?.role !== "seller" && (
+              <li
+                className="menuItem"
+                onClick={() => [
+                  setMobileMenu(false),
+                  setShowSearch(false),
+                  navigate("/cart"),
+                ]}
+                role="menuitem"
+                tabIndex="0"
+              >
+                <AiOutlineShoppingCart aria-label="Shopping Cart" />
+              </li>
+            )}
+            <li
+              className="menuItem"
+              onClick={openSearch}
+              role="menuitem"
+              tabIndex="0"
+            >
+              <HiOutlineSearch aria-label="Search" />
             </li>
-          )}
-          <li className="menuItem ProfilePicHeader ">
-            <img
-              src={
-                user?.profilePic
-                  ? `${user?.profilePic}`
-                  : Avtar
-              }
-              alt="profileImg"
-              onClick={() => [
-                navigate("/profile"),
-                setShowSearch(false),
-                setMobileMenu(false),
-              ]}
-            />
-          </li>
-        </ul>
-
+            {user === null ? (
+              <li
+                className="menuItem"
+                onClick={() => [
+                  navigate("/login"),
+                  setMobileMenu(false),
+                  setShowSearch(false),
+                ]}
+                role="menuitem"
+                tabIndex="0"
+              >
+                LOGIN
+              </li>
+            ) : (
+              <li
+                className="menuItem"
+                onClick={logoutHandler}
+                role="menuitem"
+                tabIndex="0"
+              >
+                Logout
+              </li>
+            )}
+            <li
+              className="menuItem ProfilePicHeader"
+              role="menuitem"
+              tabIndex="0"
+            >
+              <img
+                src={user?.profilePic ? `${user?.profilePic}` : Avtar}
+                alt="profileImg"
+                onClick={() => [
+                  navigate("/profile"),
+                  setShowSearch(false),
+                  setMobileMenu(false),
+                ]}
+                role="button"
+              />
+            </li>
+          </ul>
+        </nav>
         <div className="mobileMenu">
-          <HiOutlineSearch onClick={openSearch} />
-          <div className=" ProfilePicHeader ">
+          <HiOutlineSearch onClick={openSearch} role="button" tabIndex="0" />
+          <div className="ProfilePicHeader">
             <img
-              src={
-                user?.profilePic
-                  ? `${user?.profilePic}`
-                  : Avtar
-              }
+              src={user?.profilePic ? `${user?.profilePic}` : Avtar}
               alt="profileImg"
               onClick={() => [
                 navigate("/profile"),
                 setShowSearch(false),
                 setMobileMenu(false),
               ]}
+              role="button"
+              tabIndex="0"
             />
           </div>
           {mobileMenu ? (
-            <VscChromeClose onClick={() => setMobileMenu(false)} />
+            <VscChromeClose
+              onClick={() => setMobileMenu(false)}
+              role="button"
+              tabIndex="0"
+            />
           ) : (
-            <SlMenu onClick={openMobileMenu} />
+            <SlMenu onClick={openMobileMenu} role="button" tabIndex="0" />
           )}
         </div>
       </ContentWrapper>
@@ -161,10 +191,14 @@ const Header = () => {
                 placeholder="Search your Products...."
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyUp={searchQueryHandler}
+                aria-label="Search for products"
               />
               <VscChromeClose
                 style={{ color: "#fff" }}
                 onClick={() => setShowSearch(false)}
+                role="button"
+                tabIndex="0"
+                aria-label="Close Search"
               />
             </div>
           </ContentWrapper>
