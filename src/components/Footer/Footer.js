@@ -25,7 +25,7 @@ const Footer = () => {
           <li
             className="menuItem"
             role="menuitem"
-            onClick={() => navigate("/products")}
+            onClick={() => navigate("/viewproducts")}
           >
             Products
           </li>

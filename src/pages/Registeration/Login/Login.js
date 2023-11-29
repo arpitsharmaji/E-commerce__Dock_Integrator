@@ -34,7 +34,7 @@ function Login() {
         localStorage.setItem("token", token);
         dispatch(UserFun(user));
         toast.success("login Sucessfully");
-        navigate("/")
+        navigate("/");
       })
       .catch((error) => {
         toast.error(`${error.response.data}`);
@@ -45,65 +45,64 @@ function Login() {
 
   return (
     <main className="login">
-    <section className="formPage">
-      <div className="formcontainer" role="main">
-        <h2 className="title">Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="formField">
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              placeholder="email address"
-              type="email"
-              onChange={handleChange}
-              name="email"
-              value={formData.email}
-              required
-              aria-required="true"
-              autoComplete="email"
-              aria-label="Email"
-            />
-          </div>
-          <div className="formField">
-            <label htmlFor="password">Password:</label>
-            <input
-              id="password"
-              required
-              type="password"
-              placeholder="password"
-              onChange={handleChange}
-              name="password"
-              value={formData.password}
-              aria-required="true"
-              autoComplete="current-password"
-              aria-label="Password"
-            />
-          </div>
-          <p>
-            Don't have an account?{" "}
-            <span
-              onClick={() => navigate("/register")}
-              role="button"
-              tabIndex="0"
-              aria-label="Register"
-            >
-              Register
-            </span>{" "}
-          </p>
-          {error && (
-            <p className="error" aria-live="polite">
-              {error}
+      <section className="formPage">
+        <div className="formcontainer" role="main">
+          <h2 className="title">Login</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="formField">
+              <label htmlFor="email">Email:</label>
+              <input
+                id="email"
+                placeholder="email address"
+                type="email"
+                onChange={handleChange}
+                name="email"
+                value={formData.email}
+                required
+                aria-required="true"
+                autoComplete="email"
+                aria-label="Email"
+              />
+            </div>
+            <div className="formField">
+              <label htmlFor="password">Password:</label>
+              <input
+                id="password"
+                required
+                type="password"
+                placeholder="password"
+                onChange={handleChange}
+                name="password"
+                value={formData.password}
+                aria-required="true"
+                autoComplete="current-password"
+                aria-label="Password"
+              />
+            </div>
+            <p>
+              Don't have an account?{" "}
+              <span
+                onClick={() => navigate("/register")}
+                role="button"
+                tabIndex="0"
+                aria-label="Register"
+              >
+                Register
+              </span>{" "}
             </p>
-          )}
-          <button type="submit" className="submit">
-            Login
-          </button>
-        </form>
-      </div>
-    </section>
-    <ToastContainer />
-  </main>
-  
+            {error && (
+              <p className="error" aria-live="polite">
+                {error}
+              </p>
+            )}
+            <button type="submit" className="submit">
+              Login
+            </button>
+          </form>
+        </div>
+      </section>
+      <ToastContainer />
+    </main>
   );
 }
 

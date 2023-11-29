@@ -7,40 +7,49 @@ function HomeBanner() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
+  let timer;
   const searchQueryHandler = (event) => {
-    if (event.key === "Enter" && query.length > 0) {
-      navigate(`/search/${query}`);
-    }
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (query.length > 0) {
+        navigate(`/search/${query}`);
+        if (event.key === "Enter") {
+          navigate(`/search/${query}`);
+        }
+      }
+    }, 3000);
   };
   return (
     <section className="homeBanner" role="banner">
-    <div className="Background-img">
-      <img src={Shopping} alt="Shopping Banner" />
-    </div>
-    <div className="opacity-layer" aria-hidden="true"></div>
-    <ContentWrapper>
-      <div className="homeDetailContainer">
-        <h1 className="title">Welcome</h1>
-        <p className="subTitle">Start your Shopping with us</p>
-        <div className="searchInput">
-          <label htmlFor="searchProducts" className="visually-hidden">
-            Search your Products
-          </label>
-          <input
-            type="text"
-            id="searchProducts"
-            placeholder="Search your Products..."
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyUp={searchQueryHandler}
-          />
-          <button type="submit">Search</button>
+      <div className="Background-img">
+        <img src={Shopping} alt="Shopping Banner" />
+      </div>
+      <div className="opacity-layer" aria-hidden="true"></div>
+      <ContentWrapper>
+        <div className="homeDetailContainer">
+          <h1 className="title">Welcome</h1>
+          <p className="subTitle">Start your Shopping with us</p>
+          <div className="searchInput">
+            <label htmlFor="searchProducts" className="visually-hidden">
+              Search your Products
+            </label>
+            <input
+              type="text"
+              id="searchProducts"
+              placeholder="Search your Products..."
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyUp={searchQueryHandler}
+            />
+            <button onclick={searchQueryHandler} type="submit">
+              Search
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="homeImageContainer">
-        <img className="Homeimage" src={Shopping} alt="Shopping Banner" />
-      </div>
-    </ContentWrapper>
-  </section>
+        <div className="homeImageContainer">
+          <img className="Homeimage" src={Shopping} alt="Shopping Banner" />
+        </div>
+      </ContentWrapper>
+    </section>
   );
 }
 

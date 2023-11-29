@@ -117,7 +117,7 @@ function Cart() {
                   ))}
                 </div>
                 <div className="btnContainer">
-                  <button onClick={() => navigate("/products")}>
+                  <button onClick={() => navigate("/viewproducts")}>
                     Continue Shopping
                   </button>
                   <button onClick={ClearAllItem}>Clear All</button>
@@ -145,7 +145,7 @@ function Cart() {
               <div className="additemToCart">
                 <img src={ShopingImg} alt="No items in cart" />
                 <p>No items in cart</p>
-                <button onClick={() => navigate("/products")}>
+                <button onClick={() => navigate("/viewproducts")}>
                   Start Shopping
                 </button>
               </div>

@@ -32,7 +32,7 @@ function Register() {
     if (Object.keys(formError).length === 0 && isUserSubmit) {
       SignupLogin("/Auth/signup", { ...formData, role: "user" })
         .then((res) => {
-           (res.status);
+          res.status;
           if (res.status === 200) {
             navigate("/login");
           } else {
@@ -40,7 +40,7 @@ function Register() {
           }
         })
         .catch((error) => {
-           (error);
+          error;
           setCommingError(error.response.data);
         })
         .finally(() => {
@@ -58,7 +58,7 @@ function Register() {
     if (Object.keys(formError).length === 0 && isSellerSubmit) {
       SignupLogin("/Auth/signup", { ...formData, role: "seller" })
         .then((res) => {
-           (res.status);
+          res.status;
           if (res.status === 200) {
             navigate("/login");
           } else {
@@ -66,7 +66,7 @@ function Register() {
           }
         })
         .catch((error) => {
-           (error);
+          error;
           setCommingError(error.response.data);
         })
         .finally(() => {

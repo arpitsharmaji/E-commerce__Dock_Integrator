@@ -34,7 +34,6 @@ function Profile() {
   const [editForm, seteditForm] = useState(false);
   const [formdata, setformdata] = useState({});
   const [emptyError, setError] = useState("");
-
   const preset_key = "shopbagprofile";
   const cloud_name = "dygbz1kio";
 
@@ -66,15 +65,15 @@ function Profile() {
                 return res;
               })
               .catch((error) => {
-                 (error);
+                error;
                 return error;
               });
           })
           .catch((err) => {
-             (err);
+            err;
           })
       )
-      .catch((err) =>  (err));
+      .catch((err) => err);
   };
 
   const userId = user?._id;
@@ -85,7 +84,7 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     (formdata, "form");
+    formdata, "form";
     if (Object.keys(formdata).length === 0) {
       setError("please inset something ");
     } else {
@@ -99,12 +98,12 @@ function Profile() {
               return res;
             })
             .catch((error) => {
-               (error);
+              error;
               return error;
             });
         })
         .catch((err) => {
-           (err);
+          err;
         });
     }
   };
@@ -130,12 +129,12 @@ function Profile() {
                 dispatch(getOrders(res));
               })
               .catch((error) => {
-                 (error);
+                error;
               });
           }
         })
         .catch((error) => {
-           (error);
+          error;
         });
     } else {
       removeItemFromDb(`/products/${id}`)
@@ -146,12 +145,12 @@ function Profile() {
                 dispatch(productAddedBySeller(res));
               })
               .catch((error) => {
-                 (error);
+                error;
               });
           }
         })
         .catch((error) => {
-           (error);
+          error;
         });
     }
   };
@@ -173,14 +172,14 @@ function Profile() {
   };
 
   useEffect(() => {
-     ("effect");
+    ("effect");
     if (user?.role === "seller") {
       fetchDetailsfromApi(`/products/seller/${userId}`)
         .then((res) => {
           dispatch(productAddedBySeller(res));
         })
         .catch((error) => {
-           (error);
+          error;
         });
     } else
       fetchDetailsfromApi(`/purchase/${userId}`)
@@ -188,7 +187,7 @@ function Profile() {
           dispatch(getOrders(res));
         })
         .catch((error) => {
-           (error);
+          error;
         });
   }, [user?.orders, user?.role, ShowForm]);
 
@@ -337,7 +336,7 @@ function Profile() {
                     <h2>All Orders</h2>
                     <button
                       className="btn"
-                      onClick={() => Navigate("/products")}
+                      onClick={() => Navigate("/viewproducts")}
                     >
                       Start Shopping
                     </button>

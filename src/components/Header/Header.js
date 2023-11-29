@@ -84,7 +84,7 @@ const Header = () => {
             <li
               className="menuItem"
               onClick={() => [
-                navigate("/products"),
+                navigate("/viewproducts"),
                 setShowSearch(false),
                 setMobileMenu(false),
               ]}

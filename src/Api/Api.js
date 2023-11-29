@@ -1,40 +1,39 @@
 import axios from "axios";
 
- 
 
 export const fetchDetailsfromApi = async (url) => {
   try {
     const { data } = await axios.get( url);
     return data;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };
 
-export const AddProduct = async (url , formData) => {
+export const AddProduct = async (url, formData) => {
   try {
-    const res = await axios.post( url , formData);
+    const res = await axios.post(url, formData);
     return res;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };
 
-export const updateProduct = async (url , formData) =>{
-  try{
-    const res = await axios.patch( url , formData);
-    return res;  
-  }catch(error){
-     (error);
+export const updateProduct = async (url, formData) => {
+  try {
+    const res = await axios.patch( url, formData);
+    return res;
+  } catch (error) {
+    error;
     return error;
   }
-}
+};
 
 export const getuserdetails = async (url) => {
   const token = localStorage.getItem("token");
-   (token, "header");
+  token, "header";
 
   const headers = {
     Authorization: "Bearer " + token,
@@ -46,17 +45,17 @@ export const getuserdetails = async (url) => {
     });
     return data;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };
 
 export const SignupLogin = async (url, user) => {
   try {
-    const res = await axios.post( url, user);
+    const res = await axios.post(url, user);
     return res;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };
@@ -68,7 +67,7 @@ export const updateUser = async (url, user) => {
     });
     return res;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };
@@ -78,32 +77,33 @@ export const removeItemFromDb = async (url) => {
     const res = await axios.delete( url);
     return res;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };
 
+
 export const buyProduct = async (url, data) => {
   try {
-    const res = await axios.post( url, data);
+    const res = await axios.post(url, data);
     return res;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };
 
 export const paymentHandler = async (url, transitiondetail) => {
-   (transitiondetail, "details");
+  transitiondetail, "details";
   try {
     const {
       data: { orders },
     } = await axios.post( url, transitiondetail);
-     (orders, "ordersF");
+    orders, "ordersF";
     const {
       data: { key },
-    } = await axios.get( "/payment/getkey");
-     (key, "key");
+    } = await axios.get(`/payment/getkey`);
+    key, "key";
 
     const options = {
       key: key,
@@ -114,15 +114,14 @@ export const paymentHandler = async (url, transitiondetail) => {
       image: "https://example.com/your_logo",
       order_id: orders.id,
       handler: function (response) {
-         (response, "34");
+        response, "34";
         axios
           .post(
-            
-              `/payment/paymentVerification/${transitiondetail.orderId}`,
+            `/payment/paymentVerification/${transitiondetail.orderId}`,
             { response }
           )
           .then(({ data }) => {
-             (data, "data");
+            data, "data";
             if (data.payment_status === "successful") {
               alert(`payment sucessfull  Id: ${data.paymentId}`);
             } else {
@@ -130,7 +129,7 @@ export const paymentHandler = async (url, transitiondetail) => {
             }
           })
           .catch((error) => {
-             (error);
+            error;
           });
       },
       prefill: {
@@ -151,7 +150,7 @@ export const paymentHandler = async (url, transitiondetail) => {
 
     return orders;
   } catch (error) {
-     (error);
+    error;
     return error;
   }
 };

@@ -1,3 +1,4 @@
+
 import React from "react";
 import Img from "../LazyLoading/Img";
 import { BsCurrencyRupee } from "react-icons/bs";
@@ -19,8 +20,7 @@ const OrderModel = ({
     className={`orderModel ${openModel ? "visible" : ""}`}
     role="dialog"
     aria-modal={openModel}
-    aria-labelledby="orderModelTitle"
-  >
+    aria-labelledby="orderModelTitle">
     <div className="opacityLayer" onClick={hidePopup} role="button" tabIndex="0"></div>
     <div className="orderetails">
       <p className="closeBtn" onClick={hidePopup} role="button" tabIndex="0">

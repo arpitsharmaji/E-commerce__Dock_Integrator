@@ -38,11 +38,13 @@
             color: #fff;
           }
         }
+        p {
+          span {
+            text-decoration: underline;
+            color: var(--black-lighter);
+          }
+        }
 
-        // span {
-        //   text-decoration: underline;
-        //   color: var(--black-lighter);
-        // }
         .btnContainer {
           width: 100%;
           display: flex;

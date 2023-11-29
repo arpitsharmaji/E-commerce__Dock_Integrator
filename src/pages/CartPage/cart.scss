@@ -81,6 +81,10 @@
             @include sdm{
               width: 100px;
             }
+            button{
+              border: none;
+              font-size: 2rem;
+            }
             span {
               color: var(--black-lighter);
               font-size: 1rem;

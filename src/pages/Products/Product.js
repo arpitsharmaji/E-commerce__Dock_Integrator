@@ -187,6 +187,8 @@ function Product() {
                 id="sortBy"
                 name="sortBy"
                 ref={currentsortedelm}
+
+                
                 onChange={sortByValues}
                 aria-label="Sort products by"
               >
