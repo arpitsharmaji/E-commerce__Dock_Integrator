@@ -1,9 +1,9 @@
 import axios from "axios";
 
-
+const base_url = "http://localhost:8080";
 export const fetchDetailsfromApi = async (url) => {
   try {
-    const { data } = await axios.get( url);
+    const { data } = await axios.get(base_url + url);
     return data;
   } catch (error) {
     error;
@@ -13,7 +13,7 @@ export const fetchDetailsfromApi = async (url) => {
 
 export const AddProduct = async (url, formData) => {
   try {
-    const res = await axios.post(url, formData);
+    const res = await axios.post( base_url + url, formData);
     return res;
   } catch (error) {
     error;
@@ -23,7 +23,7 @@ export const AddProduct = async (url, formData) => {
 
 export const updateProduct = async (url, formData) => {
   try {
-    const res = await axios.patch( url, formData);
+    const res = await axios.patch(base_url + url, formData);
     return res;
   } catch (error) {
     error;
@@ -40,7 +40,7 @@ export const getuserdetails = async (url) => {
   };
 
   try {
-    const { data } = await axios.get( url, {
+    const { data } = await axios.get( base_url + url, {
       headers,
     });
     return data;
@@ -52,7 +52,7 @@ export const getuserdetails = async (url) => {
 
 export const SignupLogin = async (url, user) => {
   try {
-    const res = await axios.post(url, user);
+    const res = await axios.post( base_url + url, user);
     return res;
   } catch (error) {
     error;
@@ -62,7 +62,7 @@ export const SignupLogin = async (url, user) => {
 
 export const updateUser = async (url, user) => {
   try {
-    const res = await axios.patch( url, user, {
+    const res = await axios.patch( base_url +url, user, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return res;
@@ -74,7 +74,7 @@ export const updateUser = async (url, user) => {
 
 export const removeItemFromDb = async (url) => {
   try {
-    const res = await axios.delete( url);
+    const res = await axios.delete(base_url+url);
     return res;
   } catch (error) {
     error;
@@ -85,7 +85,7 @@ export const removeItemFromDb = async (url) => {
 
 export const buyProduct = async (url, data) => {
   try {
-    const res = await axios.post(url, data);
+    const res = await axios.post(base_url + url, data);
     return res;
   } catch (error) {
     error;
@@ -98,11 +98,11 @@ export const paymentHandler = async (url, transitiondetail) => {
   try {
     const {
       data: { orders },
-    } = await axios.post( url, transitiondetail);
+    } = await axios.post( base_url + url, transitiondetail);
     orders, "ordersF";
     const {
       data: { key },
-    } = await axios.get(`/payment/getkey`);
+    } = await axios.get(`http://localhost:8080/payment/getkey`);
     key, "key";
 
     const options = {

@@ -13,9 +13,11 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
+
       .shopingHeader {
         font-size: 2rem;
       }
+
       .cartLength {
         margin: 1rem 0;
         text-transform: capitalize;
@@ -29,7 +31,7 @@
         border: 1px solid black;
         width: 100%;
 
-        @include md{
+        @include md {
           width: 80%;
         }
 
@@ -41,7 +43,13 @@
           justify-content: space-between;
           width: 100%;
           margin: 2rem 0;
-          @include sdm{
+
+          &:hover {
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+          }
+
+          @include sdm {
             justify-content: space-around;
           }
 
@@ -49,16 +57,20 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+
             img {
               border-radius: 2rem;
               width: 50px;
-              @include sdm{
+
+              @include sdm {
                 width: 100px;
               }
             }
+
             p {
               font-size: 12px;
-              @include sdm{
+
+              @include sdm {
                 font-size: 15px;
               }
             }
@@ -66,7 +78,8 @@
 
           p {
             font-size: 12px;
-            @include sdm{
+
+            @include sdm {
               font-size: 20px;
             }
           }
@@ -75,21 +88,31 @@
             width: 50px;
             display: flex;
             flex-direction: row;
-           cursor: pointer;
+            cursor: pointer;
             align-items: center;
             justify-content: space-around;
-            @include sdm{
+
+            @include sdm {
               width: 100px;
             }
-            button{
+
+            button {
               border: none;
               font-size: 2rem;
+              background-color: transparent;
+              transition: color 0.3s ease;
+
+              &:hover {
+                color: var(--pink);
+              }
             }
+
             span {
               color: var(--black-lighter);
               font-size: 1rem;
-              padding: .5rem;
-              @include sdm{
+              padding: 0.5rem;
+
+              @include sdm {
                 font-size: 2rem;
               }
             }
@@ -101,18 +124,26 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        @include sdm{
+
+        @include sdm {
           width: 80%;
         }
-        
+
         button {
           background-color: var(--pink);
           padding: 1rem;
           color: #fff;
           border: none;
           border-radius: 2rem;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #ff6680;
+          }
         }
       }
+
       .amountBox {
         text-align: center;
         margin: 1.5rem;
@@ -120,9 +151,11 @@
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
           rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
           rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
         p {
           font-size: 1.5rem;
         }
+
         button {
           margin-top: 1rem;
           background-color: var(--pink);
@@ -130,19 +163,27 @@
           color: #fff;
           border: none;
           border-radius: 2rem;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #ff6680;
+          }
         }
       }
     }
 
     .additemToCart {
       display: flex;
-       align-items: center;
+      align-items: center;
       flex-direction: column;
       justify-content: center;
-    height: 600px;
+      height: 600px;
+
       p {
         font-size: 2rem;
       }
+
       button {
         margin: 1rem;
         background-color: var(--pink);
@@ -151,6 +192,12 @@
         border: none;
         color: #fff;
         text-transform: capitalize;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #ff6680;
+        }
       }
     }
   }
@@ -161,15 +208,19 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+
     @include md {
       height: 700px;
     }
+
     .img {
       width: 300px;
     }
+
     p {
       font-size: 2rem;
     }
+
     button {
       margin: 1rem;
       background-color: var(--pink);
@@ -178,6 +229,13 @@
       border: none;
       color: #fff;
       text-transform: capitalize;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #ff6680;
+      }
     }
   }
 }
+

@@ -23,7 +23,7 @@ function Carousel({ Data, loading }) {
 
     container.scrollTo({
       left: scrollAmount,
-      behaviour: "smooth",
+      behavior: "smooth",
     });
   };
 
@@ -39,8 +39,9 @@ function Carousel({ Data, loading }) {
 
   return (
     <section className="carousel" role="region" aria-label="Product Carousel">
-  <ContentWrapper>
-    <button
+
+      <ContentWrapper>
+      <button
       className="carouselLeftNav arrow"
       onClick={() => navigation("left")}
       aria-label="Previous Slide"
@@ -55,46 +56,46 @@ function Carousel({ Data, loading }) {
     >
       <BsFillArrowRightCircleFill />
     </button>
-    {!loading ? (
-      <div className="carouselItems" ref={CarouselContainer}>
-        {Data?.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => navigate(`/details/${item.id}`)}
-            className="carouselItem"
-            role="button"
-            tabIndex="0"
-            aria-label={`View details of ${item.title}`}
-          >
-            <Img
-              src={item.thumbnail}
-              className="thumbnailImg"
-              alt="Product Image"
-            />
-            <div className="title">{item.title.slice(0, 20)}</div>
-            <div className="ratting" aria-label={`Rating: ${item.rating}`}>
-              {item.rating} <AiFillStar />
-            </div>
-            <div className="discount">
-              Discount: {item.discountPercentage} %
-            </div>
-            <div className="discount">
-              Price: <BsCurrencyRupee /> {item.price}
-            </div>
+        {!loading ? (
+          <div className="carouselItems" ref={CarouselContainer}>
+            {Data?.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => navigate(`/details/${item.id}`)}
+                className="carouselItem"
+                role="button"
+                tabIndex="0"
+                aria-label={`View details of ${item.title}`}
+              >
+                <Img
+                  src={item.thumbnail}
+                  className="thumbnailImg"
+                  alt="Product Image"
+                />
+                <div className="title">{item.title.slice(0, 20)}</div>
+                <div className="ratting" aria-label={`Rating: ${item.rating}`}>
+                  {item.rating} <AiFillStar />
+                </div>
+                <div className="discount">
+                  Discount: {item.discountPercentage} %
+                </div>
+                <div className="discount">
+                  Price: <BsCurrencyRupee /> {item.price}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    ) : (
-      <div className="loadingSkeleton">
-        {skItem()}
-        {skItem()}
-        {skItem()}
-        {skItem()}
-        {skItem()}
-      </div>
-    )}
-  </ContentWrapper>
-</section>
+        ) : (
+          <div className="loadingSkeleton">
+            {skItem()}
+            {skItem()}
+            {skItem()}
+            {skItem()}
+            {skItem()}
+          </div>
+        )}
+      </ContentWrapper>
+    </section>
   );
 }
 

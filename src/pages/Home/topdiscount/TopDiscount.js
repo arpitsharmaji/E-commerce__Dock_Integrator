@@ -6,6 +6,8 @@ import ContentWrapper from "../../../components/ContentWrapper/ContentWrapper";
 function Topdiscount() {
   const { products, loading } = useSelector((state) => state.AllProducts);
 
+  console.log(products);
+
   const Topdiscount = products
     ?.filter((item) => item.discountPercentage >= 16)
     .sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1))
