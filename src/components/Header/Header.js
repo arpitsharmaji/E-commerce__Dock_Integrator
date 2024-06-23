@@ -6,7 +6,7 @@ import { AiFillShop } from "react-icons/ai";
 import "./Style.scss";
 import { useNavigate } from "react-router-dom";
 import ContentWrapper from "../ContentWrapper/ContentWrapper";
-import Avtar from "../../assets/avatar.png";
+import Avtar from "../../assets/Avatar.png";
 import { useSelector } from "react-redux";
 import { SlMenu } from "react-icons/sl";
 import { useDispatch } from "react-redux";

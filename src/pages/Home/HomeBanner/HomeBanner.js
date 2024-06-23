@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./HomeBanner.scss";
-import Shopping from "../../../assets/feature.jpg";
+import Shopping from "../../../assets/Shopping.jpg";
  
 import { useSelector } from "react-redux";
 import ContentWrapper from "../../../components/ContentWrapper/ContentWrapper";

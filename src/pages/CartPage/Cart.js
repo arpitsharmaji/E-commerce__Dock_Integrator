@@ -9,8 +9,8 @@ import {
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ShopingImg from "../../assets/download.jpg";
-import MissingItem from "../../assets/missingitem.webp";
+import ShopingImg from "../../assets/ShopingImg.jpg";
+import MissingItem from "../../assets/MissingItem.webp";
 import { BsCurrencyRupee } from "react-icons/bs";
 import { paymentHandler, buyProduct } from "../../Api/Api";
 

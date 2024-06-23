@@ -3,7 +3,7 @@ import "./Profile.scss";
 import { useSelector, useDispatch } from "react-redux";
 import Img from "../../components/LazyLoading/Img";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
-import avtar from "../../assets/avatar.png";
+import Avtar from "../../assets/Avatar.png";
 import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlineFileAdd, AiFillDelete } from "react-icons/ai";
 import {
@@ -237,7 +237,7 @@ function Profile() {
                 </div>
                 <img
                   className="profilePic"
-                  src={user?.profilePic ? `${user?.profilePic}` : avtar}
+                  src={user?.profilePic ? `${user?.profilePic}` : Avtar}
                   alt="Profile Picture"
                 />
               </div>
