@@ -33,7 +33,7 @@ function HomeBanner() {
       <ContentWrapper>
         <div className="homeDetailContainer">
           <h1 className="title">Welcome</h1>
-          <p className="subTitle">Shop Smarter, Live Better: Your One-Stop Destination for Quality Finds!</p>
+          <p className="subTitle">Shop Smarter  Live Better: Your One-Stop Destination for Quality Finds!</p>
           <div className="searchInput">
             <label htmlFor="searchProducts" className="visually-hidden">
               Search your Products
