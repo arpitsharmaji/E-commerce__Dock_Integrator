@@ -28,7 +28,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/Auth/login", formData)
+      .post("https://e-commerce-backend-ygkq.onrender.com/Auth/login", formData)
       .then((res) => {
         const { token, user } = res.data;
         localStorage.setItem("token", token);

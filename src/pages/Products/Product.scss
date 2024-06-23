@@ -1,8 +1,18 @@
 @import "../../../mixins.scss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+// Define custom colors for a professional color palette
+$primaryColor: #2c3e50; // Dark blue-gray
+$secondaryColor: #e74c3c; // Dark red
+$accentColor: #27ae60; // Dark green
+$textColor: #555; // Dark gray
+$lightTextColor: #888; // Lighter gray
+
 .productPage {
   width: 100%;
   padding-top: 100px;
   margin-bottom: 50px;
+
   @include md {
     margin-bottom: 0;
     padding-top: 70px;
@@ -10,6 +20,8 @@
   }
 
   .Mainproduct {
+    font-family: 'Montserrat', sans-serif; // Use Montserrat font for a clean and modern look
+
     .productHeader {
       display: flex;
       align-items: center;
@@ -20,9 +32,11 @@
       margin-bottom: 1rem;
 
       p {
-        text-transform: capitalize;
-        font-weight: 900;
-        font-size: 2rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 1.8rem; // Smaller font size
+        color: $primaryColor;
+        margin-bottom: 1rem;
       }
 
       @include smm {
@@ -32,38 +46,48 @@
       .selectors {
         display: flex;
         flex-direction: row;
+
         label {
           display: none;
         }
+
         #sortBy,
         #category {
           width: auto;
           margin-top: 1rem;
           margin-right: 1rem;
           border: none;
-          padding: 0.5rem;
-          background-color: purple;
-          color: blanchedalmond;
+          padding: 0.5rem 1rem;
+          background-color: $primaryColor;
+          color: #fff;
           border-radius: 2rem;
+          cursor: pointer;
 
           @include smm {
             margin-top: 0;
             width: auto;
             margin-right: 2rem;
           }
+
           option {
-            font-size: 1.2rem;
+            font-size: 1rem; // Smaller font size
           }
         }
+
         .addProduct {
           display: flex;
           flex-direction: row;
           align-items: center;
+
           .addicon {
-            font-size: 2rem;
+            font-size: 1.6rem; // Smaller font size
+            color: $accentColor;
+            margin-right: 0.5rem;
           }
+
           p {
-            font-size: 1.2rem;
+            font-size: 1rem; // Smaller font size
+            color: $primaryColor;
           }
         }
       }
@@ -74,17 +98,19 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-around;
+
       .Product {
         margin: 1rem;
         width: 300px;
         display: flex;
         flex-direction: column;
-        border-radius: 2rem;
-        box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-          0 0 0 2px rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+        border-radius: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+
         @include mds {
           flex-direction: row;
-          width: 400;
+          width: 400px;
         }
 
         .ImageContainer {
@@ -96,21 +122,17 @@
           height: 300px;
           aspect-ratio: 1 / 1;
           transition: all ease 0.5s;
+
           @include mds {
             width: 200px;
           }
-.updateProfilePencil{
-   font-size: 2rem;
-        z-index: 1;
-        position: absolute;
-        top: 0;
-        left: 0;
-}
+
           .lazy-load-image-background {
             width: 100%;
             height: 100%;
-            border-radius: 12px;
+            border-radius: 1rem;
             overflow: hidden;
+
             img {
               width: 100%;
               height: 100%;
@@ -118,49 +140,48 @@
               object-position: center;
             }
           }
-          .updateProfile{
-        font-size: 4rem;
-      
-      }
         }
+
         .details {
+          padding: 1.5rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
+
           .title {
-            margin: 0.5rem;
-            @include mds {
-              margin: 1rem;
-            }
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem; // Smaller font size
+            color: $primaryColor;
+            font-weight: bold;
           }
 
           .rating {
-            margin: 0.5rem;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgb(68, 190, 68);
+            background-color: $accentColor;
             color: #fff;
-            width: 30%;
-            height: 20px;
-            @include mds {
-              margin: 1rem;
-            }
+            width: fit-content;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem; // Smaller font size
           }
 
           .price {
-            margin: 0.5rem;
-            @include mds {
-              margin: 1rem;
-            }
+            margin-bottom: 0.5rem;
+            font-size: 1rem; // Smaller font size
+            color: $secondaryColor;
+            font-weight: bold;
           }
 
           .discount {
-            margin: 0.5rem;
-            padding: 0.5rem;
-            @include mds {
-              margin: 1rem;
-            }
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background-color: $accentColor;
+            color: #fff;
+            border-radius: 0.5rem;
+            font-size: 0.8rem; // Smaller font size
           }
         }
       }
@@ -173,36 +194,50 @@
       align-self: center;
       justify-content: center;
       margin: 2rem 0;
+
       .btn {
-        padding: 0.2rem;
-        background-color: var(--black-light);
-        margin: 0 0.2rem;
+        padding: 0.5rem 1rem;
+        background-color: $primaryColor;
+        margin: 0 0.5rem;
         color: #fff;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
 
-        @include smm {
-          padding: 0.5rem;
-          margin: 0 0.5rem;
+        &:hover {
+          background-color: $secondaryColor;
         }
 
         @include smm {
-          padding: 1rem;
-          margin: 0 1rem;
+          padding: 0.75rem 1.5rem;
         }
       }
+
       .normal {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+
         @include ssm {
           font-size: 1rem;
         }
       }
+
       .active {
-        color: purple;
+        color: $primaryColor;
         font-size: 1rem;
+        font-weight: bold;
+        border: 2px solid $primaryColor;
+        background-color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        cursor: default;
+
         @include ssm {
           font-size: 1rem;
         }
+
         @include smm {
-          font-size: 2rem;
+          font-size: 1.2rem;
+          padding: 0.75rem 1.5rem;
         }
       }
     }

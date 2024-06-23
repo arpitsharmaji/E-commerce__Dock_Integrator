@@ -36,7 +36,7 @@ function Cart() {
   const buyNowHandler = (data) => {
     buyProduct(`/purchase/placeOrder`, data)
       .then((res) => {
-         (res, "buyproduct");
+        res, "buyproduct";
         paymentHandler("/payment/checkout", {
           amount: res.data.amount,
           userId: res.data.user,
@@ -45,13 +45,14 @@ function Cart() {
           email: user.email,
         })
           .then((res) => {
-             (res, "response at handle ");
+            res, "response at handle ";
+            ClearAllItem();
           })
           .catch((error) => {
-             (error);
+            error;
           });
       })
-      .catch((error) =>  (error));
+      .catch((error) => error);
   };
 
   const addtoCart = (prod, e) => {

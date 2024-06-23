@@ -1,6 +1,11 @@
 @import "../../../mixins.scss";
-
+$primaryColor: #2980b9; // Dark blue
+$secondaryColor: #c0392b; // Dark red
+$accentColor: #27ae60; // Dark green
+$textColor: #444; // Dark grey
+$lightTextColor: #666; // Lighter grey
 .carousel {
+  font-family: 'Arial', sans-serif;
   margin-bottom: 50px;
 
   .contentWrapper {
@@ -108,91 +113,97 @@
     padding: 0 20px;
     transition: transform 0.4s ease-in-out;
     align-items: stretch;
-
-    @include md {
+  
+    @media (min-width: 768px) {
       gap: 20px;
       overflow: hidden;
       margin: 0;
       padding: 0;
     }
+  
 
-    .carouselItem {
-      width: 190px;
-      padding: 20px;
-      margin: 20px 0;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 2rem;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.4s ease-in-out, box-shadow 0.3s ease-in-out;
+ 
 
-      @include md {
-        width: calc(25% - 15px);
-      }
 
-      @include lg {
-        width: calc(20% - 16px);
-      }
-      flex-shrink: 0;
+.carouselItem {
+  width: 190px;
+  padding: 20px;
+  margin: 20px 0;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease-in-out, box-shadow 0.3s ease-in-out;
+  font-family: 'Roboto', sans-serif; // Use Roboto font for a modern look
 
-      .thumbnailImg {
-        border-radius: 12px;
-        width: 100%;
-        height: 200px;
-        transition: transform 0.3s ease-in-out;
+  @media (min-width: 768px) {
+    width: calc(25% - 15px);
+  }
 
-        &:hover {
-          transform: scale(1.05);
-        }
-      }
+  @media (min-width: 992px) {
+    width: calc(20% - 16px);
+  }
 
-      .title {
-        width: 100%;
-        margin-bottom: 10px;
-        margin-top: 10px;
-        font-size: 16px;
-        color: #333;
-      }
+  flex-shrink: 0;
 
-      .discount {
-        margin-top: 0.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ff4500; // Dark orange color
-        width: 100%;
-        font-weight: bold;
-        font-size: 14px;
+  .thumbnailImg {
+    border-radius: 10px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
 
-        &:hover {
-          color: #e34234; // Lighter shade of orange on hover
-        }
-      }
-
-      .ratting {
-        height: 30px;
-        width: 40%;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(90deg, #4caf50, #45a849); // Green gradient
-        color: #fff;
-        font-weight: bold;
-        font-size: 14px;
-
-        &:hover {
-          background: linear-gradient(90deg, #45a849, #3e943f); // Lighter shade of green on hover
-        }
-      }
-
-      &:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-      }
+    &:hover {
+      transform: scale(1.05);
     }
   }
+
+  .title {
+    margin-top: 15px;
+    font-size: 18px;
+    color: $textColor;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .discount {
+    margin-top: 10px;
+    color: $primaryColor; // Use primary color for discount text
+    font-weight: bold;
+    font-size: 16px;
+
+    &:hover {
+      color: lighten($primaryColor, 10%); // Lighten primary color on hover
+    }
+  }
+
+  .ratting {
+    height: 30px;
+    width: 70%;
+    border-radius: 5px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, $primaryColor, $accentColor); // Gradient background using primary and accent colors
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+
+    &:hover {
+      background: linear-gradient(90deg, lighten($primaryColor, 5%), lighten($accentColor, 5%)); // Lighten gradient on hover
+    }
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+
+  }
+  
 }
 
 // Additional styling enhancements go here

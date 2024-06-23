@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import "./HomeBanner.scss";
 import Shopping from "../../../assets/feature.jpg";
+ 
+import { useSelector } from "react-redux";
 import ContentWrapper from "../../../components/ContentWrapper/ContentWrapper";
 import { useNavigate } from "react-router-dom";
 function HomeBanner() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-
+  const { products, loading } = useSelector((state) => state.AllProducts);
   let timer;
   const searchQueryHandler = (event) => {
     clearTimeout(timer);
@@ -19,6 +21,9 @@ function HomeBanner() {
       }
     }, 3000);
   };
+
+  
+
   return (
     <section className="homeBanner" role="banner">
       <div className="Background-img">
@@ -28,7 +33,7 @@ function HomeBanner() {
       <ContentWrapper>
         <div className="homeDetailContainer">
           <h1 className="title">Welcome</h1>
-          <p className="subTitle">Start your Shopping with us</p>
+          <p className="subTitle">Shop Smarter, Live Better: Your One-Stop Destination for Quality Finds!</p>
           <div className="searchInput">
             <label htmlFor="searchProducts" className="visually-hidden">
               Search your Products
@@ -40,14 +45,12 @@ function HomeBanner() {
               onChange={(e) => setQuery(e.target.value)}
               onKeyUp={searchQueryHandler}
             />
-            <button onclick={searchQueryHandler} type="submit">
+            <button onClick={searchQueryHandler} type="submit">
               Search
             </button>
           </div>
         </div>
-        <div className="homeImageContainer">
-          <img className="Homeimage" src={Shopping} alt="Shopping Banner" />
-        </div>
+       
       </ContentWrapper>
     </section>
   );

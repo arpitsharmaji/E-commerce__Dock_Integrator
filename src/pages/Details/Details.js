@@ -16,7 +16,7 @@ import {
   fetchDetailsfromApi,
 } from "../../Api/Api";
 import "./Details.scss";
-import { loadingState} from "../../Store/ProductSlice";
+import { loadingState } from "../../Store/ProductSlice";
 
 function Details() {
   const { products, loading } = useSelector((state) => state.AllProducts);
@@ -54,13 +54,13 @@ function Details() {
             email: user?.email,
           })
             .then((res) => {
-               (res);
+              res;
             })
             .catch((error) => {
-               (error);
+              error;
             });
         })
-        .catch((error) =>  (error));
+        .catch((error) => error);
     } else {
       navigate("/login");
     }
@@ -118,9 +118,9 @@ function Details() {
                 return res;
               })
             )
-            .catch((error) =>  (error))
+            .catch((error) => error)
         )
-        .catch((error) =>  (error));
+        .catch((error) => error);
     }
   };
 

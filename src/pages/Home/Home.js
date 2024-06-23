@@ -3,13 +3,19 @@ import "./Home.scss";
 import HomeBanner from "./HomeBanner/HomeBanner"
 import Topdiscount from "./topdiscount/TopDiscount";
 import Toprated from "./topRated/Toprated";
+import Featuredproduct from "./Featuredproduct/featuredproduct";
+import Electronics from "./electronics/electronics";
+import Dresses from "./dresses/dresses";
 
 function Home() {
   return (
     <section className="HomePage">
       <HomeBanner />
-      <Topdiscount/>
+       <Topdiscount/> 
+       <Dresses/> 
       <Toprated/>
+      <Electronics/> 
+      <Featuredproduct/>
     </section>
   );
 }

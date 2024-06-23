@@ -11,10 +11,13 @@ function Toprated() {
   }
 
   // Filter and sort top-rated products
-  const TopRatedProducts = products
+
+
+
+  const TopRatedProducts = Array.isArray(products) ? products
     .filter((item) => item.rating > 4) // Assuming rating greater than 4
     .sort((a, b) => b.rating - a.rating) // Sorting in descending order of rating
-    .slice(0, 19);
+    .slice(0, 19) : [];
 
   return (
     <section className="carouselSection">

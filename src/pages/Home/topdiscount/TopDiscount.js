@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Carousel from "../../../components/Carousel/Carousel";
 import ContentWrapper from "../../../components/ContentWrapper/ContentWrapper";
@@ -8,10 +8,12 @@ function Topdiscount() {
 
   console.log(products);
 
-  const Topdiscount = products
+ 
+
+  const Topdiscount = Array.isArray(products) ?  products
     ?.filter((item) => item.discountPercentage >= 16)
-    .sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1))
-    .slice(0, 19);
+    ?.sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1))
+    ?.slice(0, 19) : [];
 
   return (
 <section className="carouselSection" aria-label="Top Discount Carousel Section">

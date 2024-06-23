@@ -1,10 +1,11 @@
 import axios from "axios";
-
-const base_url = "http://localhost:8080";
+ const base_url = "https://e-commerce-backend-ygkq.onrender.com";
 export const fetchDetailsfromApi = async (url) => {
   try {
-    const { data } = await axios.get(base_url + url);
+    const { data } = await axios.get(base_url+url);
+    console.log(data , "fetchdata");
     return data;
+    
   } catch (error) {
     error;
     return error;
@@ -13,7 +14,7 @@ export const fetchDetailsfromApi = async (url) => {
 
 export const AddProduct = async (url, formData) => {
   try {
-    const res = await axios.post( base_url + url, formData);
+    const res = await axios.post(base_url+url, formData);
     return res;
   } catch (error) {
     error;
@@ -23,7 +24,7 @@ export const AddProduct = async (url, formData) => {
 
 export const updateProduct = async (url, formData) => {
   try {
-    const res = await axios.patch(base_url + url, formData);
+    const res = await axios.patch(base_url+url, formData);
     return res;
   } catch (error) {
     error;
@@ -40,7 +41,7 @@ export const getuserdetails = async (url) => {
   };
 
   try {
-    const { data } = await axios.get( base_url + url, {
+    const { data } = await axios.get(base_url+url, {
       headers,
     });
     return data;
@@ -52,7 +53,7 @@ export const getuserdetails = async (url) => {
 
 export const SignupLogin = async (url, user) => {
   try {
-    const res = await axios.post( base_url + url, user);
+    const res = await axios.post(base_url+url, user);
     return res;
   } catch (error) {
     error;
@@ -62,7 +63,7 @@ export const SignupLogin = async (url, user) => {
 
 export const updateUser = async (url, user) => {
   try {
-    const res = await axios.patch( base_url +url, user, {
+    const res = await axios.patch(base_url+url, user, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return res;
@@ -85,7 +86,7 @@ export const removeItemFromDb = async (url) => {
 
 export const buyProduct = async (url, data) => {
   try {
-    const res = await axios.post(base_url + url, data);
+    const res = await axios.post(base_url+url, data);
     return res;
   } catch (error) {
     error;
@@ -98,11 +99,11 @@ export const paymentHandler = async (url, transitiondetail) => {
   try {
     const {
       data: { orders },
-    } = await axios.post( base_url + url, transitiondetail);
+    } = await axios.post(base_url+url, transitiondetail);
     orders, "ordersF";
     const {
       data: { key },
-    } = await axios.get(`http://localhost:8080/payment/getkey`);
+    } = await axios.get(`${base_url}/payment/getkey`);
     key, "key";
 
     const options = {
@@ -117,7 +118,7 @@ export const paymentHandler = async (url, transitiondetail) => {
         response, "34";
         axios
           .post(
-            `/payment/paymentVerification/${transitiondetail.orderId}`,
+            `${base_url}/payment/paymentVerification/${transitiondetail.orderId}`,
             { response }
           )
           .then(({ data }) => {
