@@ -3,7 +3,7 @@ import "./Profile.scss";
 import { useSelector, useDispatch } from "react-redux";
 import Img from "../../components/LazyLoading/Img";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
-import Avtar from "../../assets/Avatar.png";
+import Avtar from "../../assets/avatar.png";
 import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlineFileAdd, AiFillDelete } from "react-icons/ai";
 import {
